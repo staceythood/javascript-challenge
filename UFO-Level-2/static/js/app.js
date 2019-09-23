@@ -15,23 +15,23 @@ tableData.forEach(sighting => {
 var button = d3.select("#filter-btn");
 
 button.on("click", function() {
-  var inputDate = d3.select("#datetime");
-  var dateValue = inputDate.property("value");
+  // var inputDate = d3.select("#datetime");
+  // var dateValue = inputDate.property("value");
   // if (dateValue !== "") {
-  var dateFilter = tableData.filter(
-    tableData => tableData.datetime === dateValue
-  );
+  // var dateFilter = tableData.filter(
+  //   tableData => tableData.datetime === dateValue
+  // );
 
-  var filter = d3.select("tbody");
-  filter.html("");
+  // var filter = d3.select("tbody");
+  // filter.html("");
 
-  dateFilter.forEach(sighting => {
-    var row = tbody.append("tr");
-    Object.entries(sighting).forEach(([key, value]) => {
-      var cell = row.append("td");
-      cell.text(value);
-    });
-  });
+  // dateFilter.forEach(sighting => {
+  //   var row = tbody.append("tr");
+  //   Object.entries(sighting).forEach(([key, value]) => {
+  //     var cell = row.append("td");
+  //     cell.text(value);
+  //   });
+  // });
   // if (inputCity !== "") {
   // var inputCity = d3.select("#city");
   // var cityValue = inputCity.property("value");
@@ -148,6 +148,7 @@ button.on("click", function() {
 
   filterResult = filterArray.forEach(f => (tableData = tableData.filter(f)));
 
+  console.log(filterResult);
   // }
 
   // // filterArray = [
