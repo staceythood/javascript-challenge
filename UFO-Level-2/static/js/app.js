@@ -2,7 +2,7 @@
 var tableData = data;
 
 // select table body
-var tbody = d3.select("tbody");
+let tbody = d3.select("tbody");
 
 tableData.forEach(sighting => {
   let row = tbody.append("tr");
@@ -13,35 +13,31 @@ tableData.forEach(sighting => {
 });
 
 var button = d3.select("#filter-btn");
-// var inputDate = d3.select("#datetime").property("value");
-// .property("value");
-// var inputState = d3.select("#state").property("value");
-// var inputCountry = d3.select("#country").property("value");
-// var inputShape = d3.select("#shape").property("value");
 
 button.on("click", function() {
-  // var inputDate = d3.select("#datetime");
-  // var dateValue = inputDate.property("value");
-  // // if (dateValue !== "") {
-  // var dateFilter = tableData.filter(
-  //   tableData => tableData.datetime === dateValue
-  // );
+  var inputDate = d3.select("#datetime");
+  var dateValue = inputDate.property("value");
+  // if (dateValue !== "") {
+  var dateFilter = tableData.filter(
+    tableData => tableData.datetime === dateValue
+  );
 
-  // var filter = d3.select("tbody");
-  // filter.html("");
+  var filter = d3.select("tbody");
+  filter.html("");
 
-  // dateFilter.forEach(sighting => {
-  //   var row = tbody.append("tr");
-  //   Object.entries(sighting).forEach(([key, value]) => {
-  //     var cell = row.append("td");
-  //     cell.text(value);
-  //   });
-  // });
+  dateFilter.forEach(sighting => {
+    var row = tbody.append("tr");
+    Object.entries(sighting).forEach(([key, value]) => {
+      var cell = row.append("td");
+      cell.text(value);
+    });
+  });
   // if (inputCity !== "") {
   // var inputCity = d3.select("#city");
   // var cityValue = inputCity.property("value");
 
-  // var cityFilter = tableData.filter(tableData => tableData.city === cityValue);
+  // var cityFilter = tableData.filter(
+  // tableData => tableData.city === cityValue);
 
   // var filter = d3.select("tbody");
   // filter.html("");
@@ -108,25 +104,53 @@ button.on("click", function() {
   //     cell.text(value);
   //   });
   // });
-  let filter = {
-    date: Date.parse(d3.select("#datetime").node().value),
-    city: d3.select("#city").node().value,
-    state: d3.select("#state").node().value,
-    country: d3.select("#country").node().value,
-    shape: d3.select("#shape").node().value
-  };
+  // let filter = {
+  //   date: Date.parse(d3.select("#datetime").node().value),
+  //   city: d3.select("#city").node().value,
+  //   state: d3.select("#state").node().value,
+  //   country: d3.select("#country").node().value,
+  //   shape: d3.select("#shape").node().value
+  // };
 
-  console.log(filter);
+  // console.log(filter);
 
-  filteredData = data.filter(function(d) {
-    for (let key in filter) {
-      if (d[key] === "null") return false;
-    }
-    return true;
-  });
+  // filteredData = tableData.filter(function(d) {
+  //   for (let key in filter) {
+  //     if (d[key] === "null" || d[key] != filter[key]) return false;
+  //   }
+  //   return true;
+  // });
 
-  console.log(filteredData);
-  // filterArray = [
+  let dateValue = d3.select("#datetime").property("value");
+  let cityValue = d3.select("#city").property("value");
+  let stateValue = d3.select("#state").property("value");
+  let countryValue = d3.select("#country").property("value");
+  let shapeValue = d3.select("#shape").property("value");
+
+  let filterArray = [];
+
+  if (dateValue.length > 0) {
+    filterArray.push(sight => sight.datetime === dateValue);
+  }
+  if (cityValue.length > 0) {
+    filterArray.push(sight => sight.city === cityValue);
+  }
+  if (stateValue.length > 0) {
+    filterArray.push(sight => sight.state === stateValue);
+  }
+  if (countryValue.length > 0) {
+    filterArray.push(sight => sight.country === countryValue);
+  }
+  if (shapeValue.length > 0) {
+    filterArray.push(sight => sight.city === shapeValue);
+  }
+  console.log(filterArray);
+
+  filterResult = filterArray.forEach(f => (tableData = tableData.filter(f)));
+
+  // }
+
+  // // filterArray = [
   //   sight => sight.datetime === dateValue,
   //   sight => sight.city === cityValue,
   //   sight => sight.state === stateValue,
@@ -135,15 +159,15 @@ button.on("click", function() {
   // ];
 
   // filterArray.forEach(f => (data = data.filter(f)));
-  d3.select("tbody").remove();
-  console.log("gone");
-  d3.select("#ufo-table").append("tbody");
-  console.log("back");
-  var filter2 = d3.select("tbody");
-  // filter2.html("");
+  // d3.select("tbody").remove();
+  // console.log("gone");
+  // d3.select("#ufo-table").append("tbody");
+  // console.log("back");
+  let table = d3.select("tbody");
+  table.html("");
 
-  filteredData.forEach(sighting => {
-    let row = filter2.append("tr");
+  filterResult.forEach(sighting => {
+    let row = table.append("tr");
     Object.entries(sighting).forEach(([key, value]) => {
       let cell = row.append("td");
       cell.text(value);
